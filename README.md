@@ -14,11 +14,10 @@ To read more about creating a Kaltura Session, click here.
 
 ## Creating a Resource 
 
-A schedule resource is created using the `scheduleResource.add` action. You'll be creating an object of Type `KalturaLocationScheduleResource`. 
-The resource *must* have a name, it should include **tags** of `vcprovider:newrow` in order to be recognized as a virtual classroom. 
+A schedule resource is created using the [`scheduleResource.add`](https://developer.kaltura.com/console/service/scheduleResource/action/add) action, which will return a `KalturaLocationScheduleResource` object. 
+The resource *must* have a name, and it should include **tags** of `vcprovider:newrow` in order to be recognized as a virtual classroom. 
 
-Once created, the response will return an **ID**, which you should hold on to. 
-
+Once created, the response will return an `id`, which you should hold on to. 
 However, if you've lost track of it - no worries. You can see all of your scheduled resources by calling `scheduleResource.list`. 
 
 **Note that you should be using an ADMIN Kaltura Session for this creation.**
@@ -43,30 +42,49 @@ Tags can also include additional (optional) parameters for initializing the clas
 |---|---|---|---|
 | custom_playlist_id  | integer  | Playlist ID to load in this resource |
 | custom_playlist_name  | string | Playlist Name to load. Used only if Playlist ID was not passed |
-| custom_reset_playlist_instance  | boolean  | *1 - Every new room session will create a new playlist instance in the if same playlist is
-already loaded in this room.
-If the new custom_playlist_id is different from the
-existing one - new playlist will be loaded and
-existing playlist instance will be overridden.
-0 – accessing a room will not set a new playlist instance if the room has the same custom_playlist_id. All annotations will be kept in the playlist room.
-Default set to be 1.
-  |
+| custom_reset_playlist_instance  | boolean  | **(default) 1:** creates a new playlist instance if the ID is already loaded in the room. **0:** does not reset playlist instance |
 
 
 ### Example
+```php
+<?php
+    $schedulePlugin = KalturaScheduleClientPlugin::get($client);
+    $scheduleResource = new KalturaLocationScheduleResource();
+    $scheduleResource->description = "My first classroom";
+    $scheduleResource->name = "Classroom-1";
+    $scheduleResource->tags = "vcprovider:newrow";
 
+    $result = $schedulePlugin->scheduleResource->add($scheduleResource);
+?>
+```
+
+#### Response Object 
+```json
+{
+  "id": 1100601,
+  "partnerId": 2365491,
+  "name": "ClassroomA",
+  "description": "This is a sample classroom",
+  "status": 2,
+  "tags": "vcprovider:newrow",
+  "createdAt": 1586100234,
+  "updatedAt": 1586100234,
+  "objectType": "KalturaLocationScheduleResource"
+}
+```
 
 
 
 ## Creating an Event 
 
-You'll use the `scheduleEvent.add` action to create an event of type `KalturaRecordScheduleEvent`. This action must include a startDate and endDate, and a recurrence type of NONE. 
+You'll use the [`scheduleEvent.add`](https://developer.kaltura.com/console/service/scheduleEvent/action/add) action to create an event of type `KalturaRecordScheduleEvent`. This action must include a startDate and endDate, and a recurrence type of NONE. 
 
 ### Required Parameters 
 
 - **startDate**: (int) timestamp
-- **endDate**: (int) timestamp
+- **endDate**: (int) timestamp  
 - **recurrenceType**: NONE [0]
+- **summary**: (string) event summary 
 
 ### Optional Parameters 
 
@@ -75,8 +93,9 @@ You'll use the `scheduleEvent.add` action to create an event of type `KalturaRec
 - **ownerId**: (int) in the case that templateEntryId is empty, this user will now own the recording 
 - **referenceId**: (string) third party's corresponding event ID 
 - **location**: (string) geographical location of the event 
+- **tags**: (string) see below 
 
-The creation of the event will return an ID. Hold on to that as well. And once again, if you've lost track of it, you can use `scheduleEvent.list` to see all of your created events. 
+The creation of the event will return an `id`. Hold on to that as well. And once again, if you've lost track of it, you can use `scheduleEvent.list` to see all of your created events. 
 
 ### Tags / Event Settings  
 
@@ -95,8 +114,21 @@ An event can also include room settings, such as auto-recording, by passing  **t
 | custom_rs_show_chat_moderators  | boolean  | **1:** Enable moderator chat | **0:** Disable moderator chat |
 | custom_rs_show_chat_questions  | boolean  | **1:** Enable Q&A for students and guests | **0:** Disable Q&A for students and guests |
 
+### Example 
 
+```
+<?php
+    $schedulePlugin = KalturaScheduleClientPlugin::get($client);
+    $scheduleEvent = new KalturaRecordScheduleEvent();
+    $scheduleEvent->recurrenceType = KalturaScheduleEventRecurrenceType::NONE;
+    $scheduleEvent->startDate = 1586186820;
+    $scheduleEvent->endDate = 1586190420;
+    $scheduleEvent->summary = "Tomorrow's Event";
+    $scheduleEvent->tags = "custom_rec_auto_start:1,custom_rs_show_invite:1";
 
+    $result = $schedulePlugin->scheduleEvent->add($scheduleEvent);
+?>
+```
 
 ## Creating an Event Resource 
 
