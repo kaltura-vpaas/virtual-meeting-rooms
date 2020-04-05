@@ -39,10 +39,11 @@ Although the `tags` parameter is *technically* not required with this action, yo
 Tags can also include additional (optional) parameters for initializing the classroom with a predefined playlist:
 
 | Key  | Type  | Value |
-|---|---|---|---|
+|---|---|---|
 | custom_playlist_id  | integer  | Playlist ID to load in this resource |
 | custom_playlist_name  | string | Playlist Name to load. Used only if Playlist ID was not passed |
-| custom_reset_playlist_instance  | boolean  | **(default) 1:** creates a new playlist instance if the ID is already loaded in the room. **0:** does not reset playlist instance |
+| custom_reset_playlist_instance | boolean | **(default) 1:** creates a new playlist instance if the ID is already loaded in the room. **0:** does not reset playlist instance |
+
 
 
 ### Example
