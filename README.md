@@ -190,16 +190,18 @@ To associate a session with an event, use the [`scheduleEventResource.add`](http
 
 ## Creating a Kaltura Session 
 
-There are two ways to authenticate a virtual classroom - via LTI and by using a Kaltura Session. For the purpose of this guide, we will create and use a Kaltura Session (KS), which is an authentication string that identifies the user and contains permissions and privileges. 
+A virtual classroom is authenticated by using a Kaltura Session (KS), which is an authentication string that identifies the user and contains permissions. 
 
-Read more here about creating Kaltura Sessions. 
+We'll create the KS by using the [session.start](https://developer.kaltura.com/console/service/session/action/start) action. You'll need:
+- Your `PartnerID` from the [integration settings](https://kmc.kaltura.com/index.php/kmcng/settings/integrationSettings) in your KMC
+- The `USER Secret` from the [integration settings](https://kmc.kaltura.com/index.php/kmcng/settings/integrationSettings) in your KMC
+- a `userId`, which can be any identifying string or email address. 
+- `privilege` string, described below
 
-We'll create the KS by using the [session.start](https://developer.kaltura.com/console/service/session/action/start) action. 
-Here, you'll need you partner ID, and your **USER** secret. You can find these in the [integration settings](https://kmc.kaltura.com/index.php/kmcng/settings/integrationSettings) in your KMC. You'll also need to pass a userId, which can be any identifying string or email address. 
 
 ### The Privilege String 
 
-All the virtual classroom settings will be passed into the `privileges` parameter, which is a comma-separated key-value string, much like the **tags** above. It contains information about context, privacy, and even user details.  
+The virtual classroom settings will be passed into the `privileges` parameter, which is a comma-separated key-value string, much like the **tags** above. It contains information about context, privacy, and even user details.  
 
 In the context of virtual classrooms, the string *must* include a `role`, and either a `resourceId` or an `eventId`. 
 **If you passed only EventId,** the resourceId will be retrieved automatically. 
