@@ -10,7 +10,7 @@ To use the Kaltura API, you'll need a Kaltura account and credentials. The impor
 
 This integration will be using your KAF endpoint, which should contain your partner ID. If you're not sure whether you have a KAF endpoint, speak to your account rep or email us at vpaas@kaltura.com.
 
-A virtual classroom is represented as a `KalturaLocationScheduleResource`. A scheduled  session is represented by a `KalturaRecordScheduleEvent`. One resource can be used for many different events, but an event will only be associated with one resource. The classroom will be launched using an embed link that is **made up of the event ID and a Kaltura Session**, all of which will be discussed below. 
+A virtual classroom is represented as a `KalturaLocationScheduleResource`. A scheduled  session is represented by a `KalturaRecordScheduleEvent`. One resource can be used for many different events, but an event will only be associated with one resource. The classroom will be launched using an **embed link that is made up of a Kaltura Session with specific configurations**, all of which will be discussed below. 
 
 ## Creating a Resource 
 
@@ -98,7 +98,7 @@ The creation of the event will return an `id`. Hold on to that as well. And once
 
 ### Tags / Event Settings  
 
-An event can also include room settings, such as auto-recording, by passing  **tags** as comma-separated key-value-pairs. Tags are optional. 
+An event can also include room settings, such as auto-recording, by passing  **tags** as comma-separated key-value-pairs. Tags are optional, and can also be set on the resource.
 **Note that any settings on the event will override those of the resource.**
 
 | Key  | Type  | Default  | Other |
@@ -192,6 +192,26 @@ To associate a session with an event, use the [`scheduleEventResource.add`](http
 
 There are two ways to authenticate a virtual classroom - via LTI and by using a Kaltura Session. For the purpose of this guide, we will create and use a Kaltura Session (KS), which is an authentication string that identifies the user and contains permissions and privileges. 
 
-One way to create a KS is by using the session.start action. 
-Here, you'll need a partner ID, and a USER secret. You can find these in the integration settings in your KMC. 
+Read more here about creating Kaltura Sessions. 
+
+We'll create the KS by using the [session.start](https://developer.kaltura.com/console/service/session/action/start) action. 
+Here, you'll need you partner ID, and your **USER** secret. You can find these in the [integration settings](https://kmc.kaltura.com/index.php/kmcng/settings/integrationSettings) in your KMC. You'll also need to pass a userId, which can be any identifying string or email address. 
+
+### The Privilege String 
+
+All the virtual classroom settings will be passed into the `privileges` parameter, which is a comma-separated key-value string, much like the **tags** above. It contains information about context, privacy, and even user details.  
+
+In the context of virtual classrooms, the string *must* include a `role`, and either a `resourceId` or an `eventId`. 
+**If you passed only EventId,** the resourceId will be retrieved automatically. 
+**If you only set resourceId**, the contextualRole will define the outcome. For an instructor, this will allow entry to the classroom to prepare materials and content. 
+If the user is a student, entry will only be allowed if the instructor is already in the classroom. 
+
+| Key  | Required  | Description |
+|---|---|---|
+| eventId  | yes, if `resourceId` not set  | id of the event |
+| resourceId  | yes, if `eventId` not set | id of the resource |
+| role | yes | `viewerRole` for students or `adminRole` for teacher/moderator |
+| userContextualRole  | no | 0 or 1 for instructor. 3 for student. if not set, user will be set to student. |
+| firstName | no | first name of student |
+| lastName | no | last name of student |
 
