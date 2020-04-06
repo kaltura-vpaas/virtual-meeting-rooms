@@ -190,4 +190,8 @@ To associate a session with an event, use the [`scheduleEventResource.add`](http
 
 ## Creating a Kaltura Session 
 
-The virtual classroom
+There are two ways to authenticate a virtual classroom - via LTI and by using a Kaltura Session. For the purpose of this guide, we will create and use a Kaltura Session (KS), which is an authentication string that identifies the user and contains permissions and privileges. 
+
+One way to create a KS is by using the session.start action. 
+Here, you'll need a partner ID, and a USER secret. You can find these in the integration settings in your KMC. 
+
