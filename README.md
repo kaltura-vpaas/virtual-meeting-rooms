@@ -32,7 +32,7 @@ You can find the necessary credentials in your KMC [Integration Settings](https:
   $expiry = 86400;
 ```
 
-You'll need this KS 
+You'll set this KS on the Client that handles all the operations detailed below. 
 
 ## Creating a Resource 
 
