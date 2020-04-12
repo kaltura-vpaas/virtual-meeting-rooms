@@ -310,3 +310,5 @@ You can navigate to this page directly, or you can embed it in your webpage usin
 2. Did you forget to associate a resource with the event? 
 3. Check with us to ensure the feature is enabled on your account 
 4. Did you pass `role` in the KS privilege string? 
+
+If you're still experiencing trouble, email us at vpaas@kaltura.com. 
