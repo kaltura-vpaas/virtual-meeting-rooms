@@ -8,11 +8,31 @@ This guide will walk you through the steps of creating a **virtual meeting room 
 
 To use the Kaltura API, you'll need a Kaltura account and credentials. The important credentials can be found in the Integration Settings in your KMC. 
 
-This integration will be using your KAF endpoint, which should contain your partner ID. If you're not sure whether you have a KAF endpoint or whether newrow has been enabled on your account, speak to your account rep or email us at vpaas@kaltura.com.
+You might want to download a [Kaltura Client Library](https://developer.kaltura.com/api-docs/Client_Libraries/) of your choice, although you can also use the [developer console](https://developer.kaltura.com/console) for all the operations mentioned below. 
+
+This integration will be using your KAF endpoint, which should contain your partner ID. If you're not sure whether you have a KAF endpoint or whether Newrow has been enabled on your account, speak to your account rep or email us at vpaas@kaltura.com.
 
 ### Overview
 
 A virtual meeting room is represented as a `KalturaLocationScheduleResource`. A scheduled  session is represented by a `KalturaRecordScheduleEvent`. One resource can be used for many different events, but an event will only be associated with one resource. The room will be launched using an **embed link that is made up of a Kaltura Session with specific configurations**, all of which will be discussed below. 
+
+## Creating an Admin Session 
+
+A Kaltura Session is an identification string that authorizes calls to the Kaltura API. You'll need one to create the resource and event objects. If you're logged into the [developer portal](https://developer.kaltura.com), you're already authenticated. However, if you're calling the Kaltura API using a client library, you'll need to create the string yourself using the [`session.start`](https://developer.kaltura.com/console/service/session/action/start) API. 
+
+You can find the necessary credentials in your KMC [Integration Settings](https://kmc.kaltura.com/index.php/kmcng/settings/integrationSettings). You'll use your ADMIN Secret for this operation. 
+
+### Example 
+
+```php
+  $secret = "xxxxx"
+  $userId = "your-email-address";
+  $type = KalturaSessionType::ADMIN;
+  $partnerId = 1234567;
+  $expiry = 86400;
+```
+
+You'll need this KS 
 
 ## Creating a Resource 
 
@@ -36,7 +56,7 @@ However, if you've lost track of it - no worries. You can see all of your schedu
 
 ### Tags / Adding Playlists 
 
-Although the `tags` parameter is *technically* not required with this action, you must include tags of `vcprovider:newrow` in order to create a virtual meeting room and distinguish from other types of resources.
+Although the `tags` parameter is not *technically* required with this action, you must include tags of `vcprovider:newrow` in order to create a virtual meeting room and distinguish from other types of resources.
 
 Tags can also include additional (optional) parameters for initializing the virtual room with a predefined playlist:
 
@@ -192,13 +212,15 @@ This Scheduled Event will take place in Room-1 on April 6th 2020 at 3pm GMT.
 
 ## Creating a Kaltura Session 
 
-A virtual room is authenticated by using a Kaltura Session (KS), which is a string that identifies the user and contains permissions. 
+A virtual meeting room is authenticated by using a Kaltura Session (KS), which is what identifies the user and contains permissions. 
 
 We'll create the KS by using the [session.start](https://developer.kaltura.com/console/service/session/action/start) action. You'll need:
 - Your `PartnerID` from the [integration settings](https://kmc.kaltura.com/index.php/kmcng/settings/integrationSettings) in your KMC
 - The **USER** `Secret` from the [integration settings](https://kmc.kaltura.com/index.php/kmcng/settings/integrationSettings) in your KMC
 - `userId`, which can be any identifying string, but must be unique to each user in the room 
 - `privileges` string, described below
+
+>Tip: if you're logged into the [developer.portal](https://developer.kaltura.com), you can find your credentials by clicking your account at the top right corner and then **View Secrets**
 
 
 ### The Privileges String 
@@ -231,7 +253,7 @@ Below are examples of creating a Kaltura Session for various scenarios:
   $secret = "xxxxx"
   $userId = "max@organization.com";
   $type = KalturaSessionType::USER;
-  $partnerId = 0000000;
+  $partnerId = 1234567;
   $expiry = 86400;
   $privileges = "eventId:3371011,role:viewerRole,userContextualRole:3,firstName:Max";
 
@@ -244,7 +266,7 @@ Below are examples of creating a Kaltura Session for various scenarios:
   $secret = "xxxxx"
   $userId = "speaker@organization.com";
   $type = KalturaSessionType::USER;
-  $partnerId = 0000000;
+  $partnerId = 1234567;
   $expiry = 86400;
   $privileges = "eventId:3371011,role:adminRole,userContextualRole:0,lastName:Speaker";
 
@@ -257,7 +279,7 @@ Below are examples of creating a Kaltura Session for various scenarios:
   $secret = "xxxxx"
   $userId = "speaker@organization.com";
   $type = KalturaSessionType::USER;
-  $partnerId = 0000000;
+  $partnerId = 1234567;
   $expiry = 86400;
   $privileges = "resourceId:1100601,role:adminRole,userContextualRole:0";
 
