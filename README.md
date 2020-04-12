@@ -1,21 +1,23 @@
-# VPaaS Virtual Classrooms Integration Guide
+# VPaaS Virtual Meeting Rooms Integration Guide
 
 The new Kaltura-Newrow integration allows for live video collaboration tools to be built directly into your applications, using components of the Kaltura API. 
 
-This guide will walk you through the steps of creating a **virtual classroom URL**, that you will embed in your applications with an iFrame. 
+This guide will walk you through the steps of creating a **virtual meeting room URL**, which you can embed into your webpage with an iFrame. 
 
 ## Before You Begin 
 
 To use the Kaltura API, you'll need a Kaltura account and credentials. The important credentials can be found in the Integration Settings in your KMC. 
 
-This integration will be using your KAF endpoint, which should contain your partner ID. If you're not sure whether you have a KAF endpoint, speak to your account rep or email us at vpaas@kaltura.com.
+This integration will be using your KAF endpoint, which should contain your partner ID. If you're not sure whether you have a KAF endpoint or whether newrow has been enabled on your account, speak to your account rep or email us at vpaas@kaltura.com.
 
-A virtual classroom is represented as a `KalturaLocationScheduleResource`. A scheduled  session is represented by a `KalturaRecordScheduleEvent`. One resource can be used for many different events, but an event will only be associated with one resource. The classroom will be launched using an **embed link that is made up of a Kaltura Session with specific configurations**, all of which will be discussed below. 
+### Overview
+
+A virtual meeting room is represented as a `KalturaLocationScheduleResource`. A scheduled  session is represented by a `KalturaRecordScheduleEvent`. One resource can be used for many different events, but an event will only be associated with one resource. The room will be launched using an **embed link that is made up of a Kaltura Session with specific configurations**, all of which will be discussed below. 
 
 ## Creating a Resource 
 
 A schedule resource is created using the [`scheduleResource.add`](https://developer.kaltura.com/console/service/scheduleResource/action/add) action, which will return a `KalturaLocationScheduleResource` object. 
-The resource *must* have a name, and it should include **tags** of `vcprovider:newrow` in order to be recognized as a virtual classroom. 
+The resource *must* have a name, and it should include **tags** of `vcprovider:newrow` in order to be recognized as a virtual meeting room. 
 
 Once created, the response will return an `id`, which you should hold on to. 
 However, if you've lost track of it - no worries. You can see all of your scheduled resources by calling `scheduleResource.list`. 
@@ -24,7 +26,7 @@ However, if you've lost track of it - no worries. You can see all of your schedu
 
 ### Required Parameters 
 
-- **name**: (string) classroom name 
+- **name**: (string) room name 
 - **tags**: `vcprovider:newrow`
   
 ### Optional Parameters 
@@ -34,9 +36,9 @@ However, if you've lost track of it - no worries. You can see all of your schedu
 
 ### Tags / Adding Playlists 
 
-Although the `tags` parameter is *technically* not required with this action, you must include tags of `vcprovider:newrow` in order to create a virtual classroom and distinguish from other types of resources.
+Although the `tags` parameter is *technically* not required with this action, you must include tags of `vcprovider:newrow` in order to create a virtual meeting room and distinguish from other types of resources.
 
-Tags can also include additional (optional) parameters for initializing the classroom with a predefined playlist:
+Tags can also include additional (optional) parameters for initializing the virtual room with a predefined playlist:
 
 | Key  | Type  | Value |
 |---|---|---|
@@ -47,24 +49,22 @@ Tags can also include additional (optional) parameters for initializing the clas
 
 ### Example
 ```php
-<?php
     $schedulePlugin = KalturaScheduleClientPlugin::get($client);
     $scheduleResource = new KalturaLocationScheduleResource();
-    $scheduleResource->description = "My first classroom";
-    $scheduleResource->name = "Classroom-1";
+    $scheduleResource->description = "My first meeting room";
+    $scheduleResource->name = "Room-1";
     $scheduleResource->tags = "vcprovider:newrow";
 
     $result = $schedulePlugin->scheduleResource->add($scheduleResource);
-?>
 ```
 
 #### Response Object 
 ```json
 {
   "id": 1100601,
-  "partnerId": 2365491,
-  "name": "ClassroomA",
-  "description": "This is a sample classroom",
+  "partnerId": 1234567,
+  "name": "Room-1",
+  "description": "My first meeting room",
   "status": 2,
   "tags": "vcprovider:newrow",
   "createdAt": 1586100234,
@@ -109,25 +109,27 @@ An event can also include room settings, such as auto-recording, by passing  **t
 | custom_rs_show_invite  | boolean  | **1:** Show invite option for moderators and instructors  | **0:** Hide invite option for moderators and instructors |
 | custom_rs_show_chat  | boolean  | **1:** Enable chat for students and guests  | **0:** Disable chat for students and guests  |
 | custom_rs_enable_guests_to_join  | boolean  | **1:** Enable guests to join with invite link  | **0:** Block guests from joining by invite link  |
-| custom_rs_class_mode  | string  | **webinar:** Set room mode to be in webinar mode, where users are not live | **virtual_classroom:** Set room to be in virtual classroom mod, where users are automatically set to Live and prompted to activate webcams |
+| custom_rs_class_mode  | string  | **webinar:** Set room mode to be in webinar mode, where users are not live | **virtual_classroom:** Set room to be in virtual meeting room mode, where users are automatically set to Live and prompted to activate webcams |
 | custom_rs_show_chat_moderators  | boolean  | **1:** Enable moderator chat | **0:** Disable moderator chat |
 | custom_rs_show_chat_questions  | boolean  | **1:** Enable Q&A for students and guests | **0:** Disable Q&A for students and guests |
+
+**Note that session recordings will be as long as the duration of the event.**
 
 ### Example 
 
 ```php
-<?php
     $schedulePlugin = KalturaScheduleClientPlugin::get($client);
     $scheduleEvent = new KalturaRecordScheduleEvent();
     $scheduleEvent->recurrenceType = KalturaScheduleEventRecurrenceType::NONE;
-    $scheduleEvent->startDate = 1586186820;
-    $scheduleEvent->endDate = 1586190420;
+    $scheduleEvent->startDate = 1586185200;
+    $scheduleEvent->endDate = 1586188800;
     $scheduleEvent->summary = "Tomorrow's Event";
     $scheduleEvent->tags = "custom_rec_auto_start:1,custom_rs_show_invite:1";
 
     $result = $schedulePlugin->scheduleEvent->add($scheduleEvent);
-?>
 ```
+
+This event will take place on April 6th 2020 from 3-4pm GMT. It will begin recording automatically and allows attendees to invite others. 
 
 #### Response Object 
 
@@ -135,7 +137,7 @@ An event can also include room settings, such as auto-recording, by passing  **t
 {
   "blackoutConflicts": [],
   "id": 3371011,
-  "partnerId": 0000000,
+  "partnerId": 1234567,
   "summary": "Tomorrow's Event ",
   "status": 2,
   "startDate": 1586186820,
@@ -145,22 +147,21 @@ An event can also include room settings, such as auto-recording, by passing  **t
   "sequence": 11,
   "recurrenceType": 0,
   "duration": 3600,
-  "createdAt": 1586100946,
-  "updatedAt": 1586100946,
+  "createdAt": 1586113200,
+  "updatedAt": 1586113200,
   "objectType": "KalturaRecordScheduleEvent"
 }
 ```
 
 ## Creating an Event Resource 
 
-An event *must* be associated with a classroom. As mentioned, the same resource (classroom) can be launched at many different times with different events. This allows you to keep specific resources inside a classroom; for example, for the same class that is taught numerous times with the same lesson plan. 
+An event *must* be associated with a resource. As mentioned, the same resource (room) can be launched at many different times with different events. This allows you to keep specific resources inside a virtual room; for example, for the same class that is taught numerous times with the same lesson plan. 
 
 To associate a session with an event, use the [`scheduleEventResource.add`](https://developer.kaltura.com/console/service/scheduleEventResource/action/add) action. This is where you'll need the resource Id and the event Id that you just created. 
 
 ### Example 
 
 ```php
-<?php
   $schedulePlugin = KalturaScheduleClientPlugin::get($client);
   $scheduleEventResource = new KalturaScheduleEventResource();
   $scheduleEventResource->eventId = 3371011;
@@ -172,8 +173,9 @@ To associate a session with an event, use the [`scheduleEventResource.add`](http
   } catch (Exception $e) {
     echo $e->getMessage();
   }
-?>
 ```
+
+This Scheduled Event will take place in Room-1 on April 6th 2020 at 3pm GMT. 
 
 #### Response Object 
 
@@ -190,30 +192,99 @@ To associate a session with an event, use the [`scheduleEventResource.add`](http
 
 ## Creating a Kaltura Session 
 
-A virtual classroom is authenticated by using a Kaltura Session (KS), which is an authentication string that identifies the user and contains permissions. 
+A virtual room is authenticated by using a Kaltura Session (KS), which is a string that identifies the user and contains permissions. 
 
 We'll create the KS by using the [session.start](https://developer.kaltura.com/console/service/session/action/start) action. You'll need:
 - Your `PartnerID` from the [integration settings](https://kmc.kaltura.com/index.php/kmcng/settings/integrationSettings) in your KMC
-- The `USER Secret` from the [integration settings](https://kmc.kaltura.com/index.php/kmcng/settings/integrationSettings) in your KMC
-- a `userId`, which can be any identifying string or email address. 
-- `privilege` string, described below
+- The **USER** `Secret` from the [integration settings](https://kmc.kaltura.com/index.php/kmcng/settings/integrationSettings) in your KMC
+- `userId`, which can be any identifying string, but must be unique to each user in the room 
+- `privileges` string, described below
 
 
-### The Privilege String 
+### The Privileges String 
 
-The virtual classroom settings will be passed into the `privileges` parameter, which is a comma-separated key-value string, much like the **tags** above. It contains information about context, privacy, and even user details.  
+The virtual room settings will be passed into the `privileges` parameter, which is a comma-separated key-value string, much like the **tags** above. It contains information about context, privacy, and even user details.  
 
-In the context of virtual classrooms, the string *must* include a `role`, and either a `resourceId` or an `eventId`. 
-**If you passed only EventId,** the resourceId will be retrieved automatically. 
-**If you only set resourceId**, the contextualRole will define the outcome. For an instructor, this will allow entry to the classroom to prepare materials and content. 
-If the user is a student, entry will only be allowed if the instructor is already in the classroom. 
+In the context of virtual rooms, the string *must* include a `role`, and either a `resourceId` or an `eventId`. 
+**If only EventId is set,** the resourceId will be retrieved automatically. 
+**If only resourceId is set**, the outcome will be determined by the settings in `usercontextualRole`. If the user is a moderator, this will allow entry to the room to prepare materials and content. 
+For a regular attendee, entry will only be allowed if the moderator is already in the room. 
 
 | Key  | Required  | Description |
 |---|---|---|
-| eventId  | yes, if `resourceId` not set  | id of the event |
-| resourceId  | yes, if `eventId` not set | id of the resource |
-| role | yes | `viewerRole` for students or `adminRole` for teacher/moderator |
-| userContextualRole  | no | 0 or 1 for instructor. 3 for student. if not set, user will be set to student. |
-| firstName | no | first name of student |
-| lastName | no | last name of student |
+| eventId  | yes, if `resourceId` not set  | ID of the event |
+| resourceId  | yes, if `eventId` not set | ID of the resource |
+| role | yes | `viewerRole` for attendees / `adminRole` for moderator |
+| userContextualRole  | no | **0** for instructor / **3** for attendees/guests. |
+| firstName | no | first name to appear in participants list|
+| lastName | no | last name to appear in participants list |
 
+**Note that `userContextualRole` is what determines a user's permissions in the virtual room. If `userContextualRole` is not set, the role will be set to attendee/guest.**
+
+### Examples 
+
+Below are examples of creating a Kaltura Session for various scenarios:
+
+#### An Attendee Joining A Scheduled Event 
+
+```php
+  $secret = "xxxxx"
+  $userId = "max@organization.com";
+  $type = KalturaSessionType::USER;
+  $partnerId = 0000000;
+  $expiry = 86400;
+  $privileges = "eventId:3371011,role:viewerRole,userContextualRole:3,firstName:Max";
+
+  $result = $client->session->start($secret, $userId, $type, $partnerId, $expiry, $privileges);
+```
+
+#### A Moderator Joining A Scheduled Event 
+
+```php
+  $secret = "xxxxx"
+  $userId = "speaker@organization.com";
+  $type = KalturaSessionType::USER;
+  $partnerId = 0000000;
+  $expiry = 86400;
+  $privileges = "eventId:3371011,role:adminRole,userContextualRole:0,lastName:Speaker";
+
+  $result = $client->session->start($secret, $userId, $type, $partnerId, $expiry, $privileges);
+```
+
+#### A Moderator Preparing a Virtual Room Before an Event
+
+```php
+  $secret = "xxxxx"
+  $userId = "speaker@organization.com";
+  $type = KalturaSessionType::USER;
+  $partnerId = 0000000;
+  $expiry = 86400;
+  $privileges = "resourceId:1100601,role:adminRole,userContextualRole:0";
+
+  $result = $client->session->start($secret, $userId, $type, $partnerId, $expiry, $privileges);
+```
+
+## Creating the Virtual Meeting Room URL
+
+The URL structure for the meeting room looks like this: 
+
+```
+[KAF-ENDPOINT]/virtualEvent/launch?ks=[KS]
+```
+where the KS is the Kaltura Session and your KAF endpoint is `[YOUR PARTNER ID].kaf.kaltura.com`, which must be preconfigured on your account. If you're not sure whether newrow/KAF have already been set up on your account, email us at vpaas@kaltura.com.
+
+
+### Example 
+
+```
+1234567.kaf.kaltura.com/virtualEvent/launch?ks=djJ8MjM2NTQ5MXxGbYGg6kZISSOJqeojxSl9-PRS78DLutFB3LZlbQef1n42zW5NHfkZKBmhHTTUe3aSf0eQg8FkA1SsKvsSz7evqm4VHzPP_Q0POLuKXKvuVDuSOjOeTBltskSaCRlclo1ZLHUXt4p1pMeQdo95jaY0ddYV1xJH7KMMCBNV-AMt2IqbwyWdTaeTlatZ0quTOACZ6uvzhq1v
+```
+
+You can navigate to this page directly, or you can embed it in your webpage using an iFrame. 
+
+### If Your Virtual Room is Not Working As Expected 
+
+1. Make sure you created the resource with `tags = "vcprovider:newrow"`
+2. Did you forget to associate a resource with the event? 
+3. Check with us to ensure the feature is enabled on your account 
+4. Did you pass `role` in the KS privilege string? 
