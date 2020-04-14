@@ -1,6 +1,6 @@
-# VPaaS Virtual Meeting Rooms Integration Guide
+# Kaltura Meetings / Virtual Classrooms Integration Guide
 
-The new Kaltura-Newrow integration allows for live video collaboration tools to be built directly into your applications, using components of the Kaltura API. 
+Kaltura Meetings, via the acquisition of Newrow, allows for live video collaboration tools to be built directly into your applications, using components of the Kaltura API. 
 
 This guide will walk you through the steps of creating a **virtual meeting room URL**, which you can embed into your webpage with an iFrame. 
 
@@ -10,7 +10,7 @@ To use the Kaltura API, you'll need a Kaltura account and credentials. The impor
 
 You might want to download a [Kaltura Client Library](https://developer.kaltura.com/api-docs/Client_Libraries/) of your choice, although you can also use the [developer console](https://developer.kaltura.com/console) for all the operations mentioned below. 
 
-This integration will be using your KAF endpoint, which should contain your partner ID. If you're not sure whether you have a KAF endpoint or whether Newrow has been enabled on your account, speak to your account rep or email us at vpaas@kaltura.com.
+This integration will be using your KAF endpoint, which should contain your Partner ID. If you're not sure whether you have a KAF endpoint or whether "Newrow" has been enabled on your account, speak to your account rep or email us at vpaas@kaltura.com.
 
 ### Overview
 
@@ -58,13 +58,14 @@ However, if you've lost track of it - no worries. You can see all of your schedu
 
 Although the `tags` parameter is not *technically* required with this action, you must include tags of `vcprovider:newrow` in order to create a virtual meeting room and distinguish from other types of resources.
 
-Tags can also include additional (optional) parameters for initializing the virtual room with a predefined playlist:
+Tags can also include the URL for a logo or optional parameters for initializing the virtual room with a predefined playlist. Note that the playlist feature is not enabled by default.
 
 | Key  | Type  | Value |
 |---|---|---|
 | custom_playlist_id  | integer  | Playlist ID to load in this resource |
 | custom_playlist_name  | string | Playlist Name to load. Used only if Playlist ID was not passed |
 | custom_reset_playlist_instance | boolean | **(default) 1:** creates a new playlist instance if the ID is already loaded in the room. **0:** does not reset playlist instance |
+| custom_company_logo | string | Encoded string of the logo URL |
 
 
 ### Example
@@ -123,17 +124,35 @@ An event can also include room settings, such as auto-recording, by passing  **t
 
 | Key  | Type  | Default  | Other |
 |---|---|---|---|
-| custom_rec_auto_start  | boolean  | **0:** Auto-start recording is disabled | **1:** Start recording automatically when instructor joins.   |
+| custom_rec_auto_start  | boolean  | **0:** Auto-start recording is disabled | **1:** Start recording automatically when instructor joins.  **Note that session recordings will be as long as the event duration.** |
 | custom_rec_set_reminder  | boolean | **0:** Recording reminder is disabled | **1:** Enable recording reminder prompt once instructor has been in the room for two minutes |  
 | custom_rs_show_participant  | boolean  | **1:** Show participant list for students and guests | **0:** Hide participant list for students and guests  |
 | custom_rs_show_invite  | boolean  | **1:** Show invite option for moderators and instructors  | **0:** Hide invite option for moderators and instructors |
 | custom_rs_show_chat  | boolean  | **1:** Enable chat for students and guests  | **0:** Disable chat for students and guests  |
 | custom_rs_enable_guests_to_join  | boolean  | **1:** Enable guests to join with invite link  | **0:** Block guests from joining by invite link  |
-| custom_rs_class_mode  | string  | **webinar:** Set room mode to be in webinar mode, where users are not live | **virtual_classroom:** Set room to be in virtual meeting room mode, where users are automatically set to Live and prompted to activate webcams |
+| custom_rs_class_mode  | string  | **webinar:** Set room to webinar mode, where users are not live | **virtual_classroom:** Set room to be in virtual meeting room mode, where users are automatically set to Live and prompted to activate webcams |
 | custom_rs_show_chat_moderators  | boolean  | **1:** Enable moderator chat | **0:** Disable moderator chat |
 | custom_rs_show_chat_questions  | boolean  | **1:** Enable Q&A for students and guests | **0:** Disable Q&A for students and guests |
+| custom_rs_show_language_selection  | boolean  | **1:** Show "Select Language" in options menu | **0:** Hide "Select Language" in options menu |
+| custom_rs_enable_media_library  | boolean  | **1:** Show "Video Library" in tools | **0:** Hide "Video Library" in tools |
 
-**Note that session recordings will be as long as the duration of the event.**
+#### Language Settings 
+
+Adding a tag of `custom_rs_user_lang` will force the locale language in the room. Supported languages: 
+- fr-FR French (France)
+- de-DE German
+- ko-KR Korean
+- pt-BR Portuguese (Brazil)
+- ja-JP Japanese
+- en-US English (US)
+- zh-CN Simplified Chinese (China)
+- it-IT Italian
+- es-LA Spanish
+- he-IL Hebrew
+- **en-VE** (special locale for corporate-style events, where the education lingo is less relevant)
+
+
+
 
 ### Example 
 
