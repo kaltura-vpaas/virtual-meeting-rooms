@@ -6,7 +6,7 @@ This guide will walk you through the steps of creating a **virtual meeting room 
 
 ## Before You Begin 
 
-To use the Kaltura API, you'll need a Kaltura account and credentials. The important credentials can be found in the Integration Settings in your KMC. 
+To use the Kaltura API, you'll need a Kaltura account and credentials. The important credentials can be found in the [Integration Settings]( https://kmc.kaltura.com/index.php/kmcng/settings/integrationSettings) in your KMC. 
 
 You might want to download a [Kaltura Client Library](https://developer.kaltura.com/api-docs/Client_Libraries/) of your choice, although you can also use the [developer console](https://developer.kaltura.com/console) for all the operations mentioned below. 
 
@@ -321,7 +321,20 @@ where the KS is the Kaltura Session and your KAF endpoint is `[YOUR PARTNER ID].
 1234567.kaf.kaltura.com/virtualEvent/launch?ks=djJ8MjM2NTQ5MXxGbYGg6kZISSOJqeojxSl9-PRS78DLutFB3LZlbQef1n42zW5NHfkZKBmhHTTUe3aSf0eQg8FkA1SsKvsSz7evqm4VHzPP_Q0POLuKXKvuVDuSOjOeTBltskSaCRlclo1ZLHUXt4p1pMeQdo95jaY0ddYV1xJH7KMMCBNV-AMt2IqbwyWdTaeTlatZ0quTOACZ6uvzhq1v
 ```
 
-You can navigate to this page directly, or you can embed it in your webpage using an iFrame. 
+You can navigate to this page directly, or you can embed it in your webpage using an iFrame, like so:
+
+```html
+<!DOCTYPE HTML> 
+<html>
+<body>
+
+  <iframe src="https://1234567.kaf.kaltura.com/virtualEvent/launch?ks=djJ8MjM2NTQ5MXxGbYGg6kZISSOJqeojxSl9-PRS78DLutFB3LZlbQef1n42zW5NHfkZKBmhHTTUe3aSf0eQg8FkA1SsKvsSz7evqm4VHzPP_Q0POLuKXKvuVDuSOjOeTBltskSaCRlclo1ZLHUXt4p1pMeQdo95jaY0ddYV1xJH7KMMCBNV-AMt2IqbwyWdTaeTlatZ0quTOACZ6uvzhq1v" wmode=transparent allow="microphone *; camera *; speakers *; usermedia *; autoplay *; fullscreen *;" width="1100px" height="700px"></iframe>
+
+</body>
+</html>
+```
+
+**Note that in the iFrame you'll need to add `https://` to the beginning of the URL**
 
 ### If Your Virtual Room is Not Working As Expected 
 
