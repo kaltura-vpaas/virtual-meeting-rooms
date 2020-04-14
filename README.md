@@ -1,6 +1,6 @@
-# Kaltura Meetings / Virtual Classrooms Integration Guide
+# Kaltura Meetings Integration Guide
 
-Kaltura Meetings, via the acquisition of Newrow, allows for live video collaboration tools to be built directly into your applications, using components of the Kaltura API. 
+Kaltura Meetings, via the acquisition of Newrow, allows for live video collaboration tools, such as classrooms, events, and webinars, to be built directly into your applications, using components of the Kaltura API. 
 
 This guide will walk you through the steps of creating a **virtual meeting room URL**, which you can embed into your webpage with an iFrame. 
 
