@@ -264,7 +264,7 @@ For a regular attendee, entry will only be allowed if the moderator is already i
 
 ### Examples 
 
-Below are examples of creating a Kaltura Session for various scenarios:
+Below are examples of creating a Kaltura Session in various scenarios. Their expiry time, which is currently set to 86400ms (one day), can be changed to accommodate the security settings of your application. 
 
 #### An Attendee Joining A Scheduled Event 
 
@@ -336,11 +336,29 @@ You can navigate to this page directly, or you can embed it in your webpage usin
 
 **Note that in the iFrame you'll need to add `https://` to the beginning of the URL**
 
+As a best practice, we recommend you embed the URL in an iFrame in the webpage, allowing your application to handle access to the given page. See more about security measures below. 
+
+## Security and Privacy 
+
+It is the responsibility of your application to manage the security and permissions for each meeting room. As mentioned, it is encouraged to embed the URLs within iFrames in your application, to ensure that users are authenticated before arriving at the given webpage. 
+
+**How can I ensure that users are not accessing the room outside of the event time?**
+A Kaltura Session can be given an expiry of one day, one hour, even one minute. When the KS expires, that link will no longer be valid. 
+
+**Can somebody use and share the room URL by viewing the source of the page?**
+Reminder that userIds must be unique - meaning that a user who copies and shares an embed link would be kicked out of the room once somebody with an identical link joins the room. 
+
+**How can I prevent users from inviting others by using the Invite option in the room?**
+You can use `tags=custom_rs_show_invite:0 ` on the resource or event creation to hide the Invite button in the room. 
+
+**How can I allow users to securely invite others to the room?**
+Assuming the Invite button is enabled, the invitation modal allows a password to be set on the invite link. 
+
 ### If Your Virtual Room is Not Working As Expected 
 
 1. Make sure you created the resource with `tags = "vcprovider:newrow"`
-2. Did you forget to associate a resource with the event? 
-3. Check with us to ensure the feature is enabled on your account 
+2. Check with us to ensure the feature is enabled on your account 
+3. Did you associate a resource with the event? 
 4. Did you pass `role` in the KS privilege string? 
 
 If you're still experiencing trouble, email us at vpaas@kaltura.com. 
