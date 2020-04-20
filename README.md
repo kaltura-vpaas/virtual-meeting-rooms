@@ -40,7 +40,7 @@ A schedule resource is created using the [`scheduleResource.add`](https://develo
 The resource *must* have a name, and it should include **tags** of `vcprovider:newrow` in order to be recognized as a virtual meeting room. 
 
 Once created, the response will return an `id`, which you should hold on to. 
-However, if you've lost track of it - no worries. You can see all of your scheduled resources by calling `scheduleResource.list`. 
+However, if you've lost track of it - no worries. You can see all of your scheduled resources by calling [`scheduleResource.list`](https://developer.kaltura.com/console/service/scheduleResource/action/list). 
 
 **Note that you should be using an ADMIN Kaltura Session for this creation.**
 
@@ -97,7 +97,7 @@ Tags can also include the URL for a logo or optional parameters for initializing
 
 ## Creating an Event 
 
-You'll use the [`scheduleEvent.add`](https://developer.kaltura.com/console/service/scheduleEvent/action/add) action to create an event of type `KalturaRecordScheduleEvent`. This action must include a startDate and endDate, and a recurrence type of NONE. 
+You'll use the [`scheduleEvent.add`](https://developer.kaltura.com/console/service/scheduleEvent/action/add) action to create an event of type `KalturaRecordScheduleEvent`. This action must include a summary, startDate and endDate, and a recurrence type of NONE. 
 
 ### Required Parameters 
 
@@ -115,7 +115,7 @@ You'll use the [`scheduleEvent.add`](https://developer.kaltura.com/console/servi
 - **location**: (string) geographical location of the event 
 - **tags**: (string) see below 
 
-The creation of the event will return an `id`. Hold on to that as well. And once again, if you've lost track of it, you can use `scheduleEvent.list` to see all of your created events. 
+The creation of the event will return an `id`. Hold on to that as well. And once again, if you've lost track of it, you can use [`scheduleEvent.list`](https://developer.kaltura.com/console/service/scheduleEvent/action/list) to see all of your created events. 
 
 ### Tags / Event Settings  
 
@@ -248,7 +248,7 @@ The virtual room settings will be passed into the `privileges` parameter, which 
 
 In the context of virtual rooms, the string *must* include a `role`, and either a `resourceId` or an `eventId`. 
 **If only EventId is set,** the resourceId will be retrieved automatically. 
-**If only resourceId is set**, the outcome will be determined by the settings in `usercontextualRole`. If the user is a moderator, this will allow entry to the room to prepare materials and content. 
+**If only resourceId is set**, the outcome will be determined by the settings in `userContextualRole`. If the user is a moderator, this will allow entry to the room to prepare materials and content. 
 For a regular attendee, entry will only be allowed if the moderator is already in the room. 
 
 | Key  | Required  | Description |
@@ -343,7 +343,7 @@ As a best practice, we recommend you embed the URL in an iFrame in the webpage, 
 It is the responsibility of your application to manage the security and permissions for each meeting room. As mentioned, it is encouraged to embed the URLs within iFrames in your application, to ensure that users are authenticated before arriving at the given webpage. 
 
 **How can I ensure that users are not accessing the room outside of the event time?**
-A Kaltura Session can be given an expiry of one day, one hour, even one minute. When the KS expires, that link will no longer be valid. 
+A [Kaltura Session](https://developer.kaltura.com/api-docs/VPaaS-API-Getting-Started/Kaltura_API_Authentication_and_Security.html#the-kaltura-session) can be given an expiry of one day, one hour, even one minute. When the KS expires, that link will no longer be valid. 
 
 **Can somebody use and share the room URL by viewing the source of the page?**
 Reminder that userIds must be unique - meaning that a user who copies and shares an embed link would be kicked out of the room once somebody with an identical link joins the room. 
