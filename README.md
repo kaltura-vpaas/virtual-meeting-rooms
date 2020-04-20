@@ -163,12 +163,12 @@ Adding a tag of `custom_rs_user_lang` will force the locale language in the room
     $scheduleEvent->startDate = 1586185200;
     $scheduleEvent->endDate = 1586188800;
     $scheduleEvent->summary = "Tomorrow's Event";
-    $scheduleEvent->tags = "custom_rec_auto_start:1,custom_rs_show_invite:1";
+    $scheduleEvent->tags = "custom_rec_auto_start:1,custom_rs_show_invite:1,custom_rs_user_lang:es-LA";
 
     $result = $schedulePlugin->scheduleEvent->add($scheduleEvent);
 ```
 
-This event will take place on April 6th 2020 from 3-4pm GMT. It will begin recording automatically and allows attendees to invite others. 
+This event will take place on April 6th 2020 from 3-4pm GMT, with a Spanish interface. It will begin recording automatically and allows attendees to invite others. 
 
 #### Response Object 
 
