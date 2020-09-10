@@ -135,6 +135,8 @@ An event can also include room settings, such as auto-recording, by passing  **t
 | custom_rs_show_chat_questions  | boolean  | **1:** Enable Q&A for students and guests | **0:** Disable Q&A for students and guests |
 | custom_rs_show_language_selection  | boolean  | **1:** Show "Select Language" in options menu | **0:** Hide "Select Language" in options menu |
 | custom_rs_enable_media_library  | boolean  | **1:** Show "Video Library" in tools | **0:** Hide "Video Library" in tools |
+| custom_rs_hide_end_session  | boolean  | **0:** Show "End Session" button, which ends the session for all participants | **1:** Hide "End Session" button |
+| custom_rs_hide_leave_session  | boolean  | **0:** Show "Leave Session" button, which ends the session for the user | **1:** Hide "Leave Session" button |
 
 #### Language Settings 
 
