@@ -130,7 +130,7 @@ An event can also include room settings, such as auto-recording, by passing  **t
 | custom_rs_show_invite  | boolean  | **1:** Show invite option for moderators and instructors  | **0:** Hide invite option for moderators and instructors |
 | custom_rs_show_chat  | boolean  | **1:** Enable chat for students and guests  | **0:** Disable chat for students and guests  |
 | custom_rs_enable_guests_to_join  | boolean  | **1:** Enable guests to join with invite link  | **0:** Block guests from joining by invite link  |
-| custom_rs_class_mode  | string  | **webinar:** Set room to webinar mode, where users are not live | **virtual_classroom:** Set room to be in virtual meeting room mode, where users are automatically set to Live and prompted to activate webcams |
+| custom_rs_class_mode  | string  | **virtual_classroom:** Set room to be in virtual meeting room mode, where users are automatically set to Live and prompted to activate webcams | **webinar:** Set room to webinar mode, where users are not live |
 | custom_rs_show_chat_moderators  | boolean  | **1:** Enable moderator chat | **0:** Disable moderator chat |
 | custom_rs_show_chat_questions  | boolean  | **1:** Enable Q&A for students and guests | **0:** Disable Q&A for students and guests |
 | custom_rs_show_language_selection  | boolean  | **1:** Show "Select Language" in options menu | **0:** Hide "Select Language" in options menu |
