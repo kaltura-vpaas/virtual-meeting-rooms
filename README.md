@@ -16,7 +16,7 @@ This integration will be using your KAF endpoint, which should contain your Part
 
 A virtual meeting room is represented as a `KalturaLocationScheduleResource` and we refer to it as a `resource` for short. A scheduled session is represented by a `KalturaRecordScheduleEvent`. One resource can be used for many different events, but an event will only be associated with one resource. The room will be launched using an embed link that is made up of a Kaltura Session with specific configurations, all of which will be discussed below. 
 
-<img src="/Users/hunterp/Documents/GitHub/virtual-meeting-rooms/newrow_room.png" alt="newrow_room" style="zoom:40%;" />
+<img src="newrow_room.png" alt="newrow_room" style="zoom:40%;" />
 
 ## Creating an Admin Session 
 
