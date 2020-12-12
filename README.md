@@ -1,6 +1,6 @@
 # Kaltura Meetings Integration Guide
 
-Kaltura Meetings, via the acquisition of Newrow, allows for live video collaboration tools, such as classrooms, events, and webinars, to be built directly into your applications, using components of the Kaltura API. 
+Kaltura Meetings, via the acquisition of Newrow, allows for live video collaboration tools, such as classrooms, events, and webinars, to be built directly into your applications, using components of the Kaltura API. aslkdjl
 
 This guide will walk you through the steps of creating a **virtual meeting room URL**, which you can embed into your webpage with an iFrame. 
 
@@ -14,15 +14,15 @@ This integration will be using your KAF endpoint, which should contain your Part
 
 ### Overview
 
-A virtual meeting room is represented as a `KalturaLocationScheduleResource` and we refer to it as a `resource` for short. A scheduled session is represented by a `KalturaRecordScheduleEvent`. One resource can be used for many different events, but an event will only be associated with one resource. The room will be launched using an embed link that is made up of a Kaltura Session with specific configurations, all of which will be discussed below. 
+A virtual meeting room is represented as a `KalturaLocationScheduleResource`, `resource` for short. A scheduled session is represented by a `KalturaRecordScheduleEvent`. One resource can be used for many different events, but an event will only be associated with one resource. The room will be launched using an **embed link that is made up of a Kaltura Session with specific configurations**, all of which will be discussed below. 
 
 <img src="/Users/hunterp/Documents/GitHub/virtual-meeting-rooms/newrow_room.png" alt="newrow_room" style="zoom:40%;" />
 
 ## Creating an Admin Session 
 
-A Kaltura Session is an identification string that authorizes calls to the Kaltura API. You'll need one to create the resource and event objects. If you're logged into the [developer portal](https://developer.kaltura.com), you're already authenticated. However, if you're calling the Kaltura API using a client library, you'll need to create the string yourself using the [`session.start`](https://developer.kaltura.com/console/service/session/action/start) API. 
+A Kaltura Session is an identification string that authorizes calls to the Kaltura API. You will need one to create the resource and event objects. If you're logged into the [developer portal](https://developer.kaltura.com), you're already authenticated. However, if you're calling the Kaltura API using a client library, you'll need to create the string yourself using the [`session.start`](https://developer.kaltura.com/console/service/session/action/start) API. 
 
-You can find the necessary credentials in your KMC [Integration Settings](https://kmc.kaltura.com/index.php/kmcng/settings/integrationSettings). You'll use your ADMIN Secret for this operation. 
+You can find the necessary credentials in the KMC [Integration Settings](https://kmc.kaltura.com/index.php/kmcng/settings/integrationSettings). You'll use your ADMIN Secret for this operation. 
 
 ### Example 
 
@@ -43,7 +43,7 @@ A virtual meeting room is also referred to as a "resource" which is short for `K
 You can create a resource using the [`scheduleResource.add`](https://developer.kaltura.com/console/service/scheduleResource/action/add) action, which will return a `KalturaLocationScheduleResource` object. 
 The resource *must* have a name, and it should include **tags** of `vcprovider:newrow` in order to be recognized as a virtual meeting room. 
 
-Once created, the response will return an `id`, which you should hold on to.  However, if you've lost track of it - no worries. You can see all of your scheduled resources by calling [`scheduleResource.list`](https://developer.kaltura.com/console/service/scheduleResource/action/list). 
+Once created, the response will return an `id`, which you should hold on to.  However, if you've lost track of it - no worries, you can see all of your scheduled resources by calling [`scheduleResource.list`](https://developer.kaltura.com/console/service/scheduleResource/action/list). 
 
 **Note: you should be using an ADMIN Kaltura Session for this creation.**
 
@@ -227,22 +227,22 @@ You can navigate to this page directly, or you can embed it in your webpage usin
 
 **Note that in the iFrame you'll need to add `https://` to the beginning of the URL**
 
-As a best practice, we recommend you embed the URL in an iFrame in the webpage, allowing your application to handle access to the given page. See more about security measures below. 
+As a best practice, it is recommend you embed the URL in an iFrame in the webpage, allowing your application to handle access to the given page. See more about security measures below. 
 
 ## Security and Privacy 
 
 It is the responsibility of your application to manage the security and permissions for each meeting room. As mentioned, it is encouraged to embed the URLs within iFrames in your application, to ensure that users are authenticated before arriving at the given webpage. 
 
-**How can I ensure that users are not accessing the room outside of the event time?**
+**How to ensure users are not accessing the room outside of the event time?**
 A [Kaltura Session](https://developer.kaltura.com/api-docs/VPaaS-API-Getting-Started/Kaltura_API_Authentication_and_Security.html#the-kaltura-session) can be given an expiry of one day, one hour, even one minute. When the KS expires, that link will no longer be valid. 
 
 **Can somebody use and share the room URL by viewing the source of the page?**
 Reminder that userIds must be unique - meaning that a user who copies and shares an embed link would be kicked out of the room once somebody with an identical link joins the room. 
 
-**How can I prevent users from inviting others by using the Invite option in the room?**
+**How to prevent users from inviting others by using the Invite option in the room?**
 You can use `tags=custom_rs_show_invite:0 ` on the resource or event creation to hide the Invite button in the room. 
 
-**How can I allow users to securely invite others to the room?**
+**How to allow users to securely invite others to the room?**
 Assuming the Invite button is enabled, the invitation modal allows a password to be set on the invite link. 
 
 ## Creating an Event 
