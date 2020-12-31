@@ -137,6 +137,7 @@ An event can also include room settings, such as auto-recording, by passing  **t
 | custom_rs_enable_media_library  | boolean  | **1:** Show "Video Library" in tools | **0:** Hide "Video Library" in tools |
 | custom_rs_hide_end_session  | boolean  | **0:** Show "End Session" button, which ends the session for all participants | **1:** Hide "End Session" button |
 | custom_rs_hide_leave_session  | boolean  | **0:** Show "Leave Session" button, which ends the session for the user | **1:** Hide "Leave Session" button |
+| custom_rs_room_version | string | "" | For accounts that have multiple versions enabled, pass "NR2" to load the v2 version of the platform |
 
 #### Language Settings 
 
