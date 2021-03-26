@@ -137,7 +137,6 @@ An event can also include room settings, such as auto-recording, by passing  **t
 | custom_rs_enable_media_library  | boolean  | **1:** Show "Video Library" in tools | **0:** Hide "Video Library" in tools |
 | custom_rs_hide_end_session  | boolean  | **0:** Show "End Session" button, which ends the session for all participants | **1:** Hide "End Session" button |
 | custom_rs_hide_leave_session  | boolean  | **0:** Show "Leave Session" button, which ends the session for the user | **1:** Hide "Leave Session" button |
-| custom_rs_room_version | string | "" | For accounts that have multiple versions enabled, pass "NR2" to load the v2 version of the platform |
 
 #### Language Settings 
 
@@ -252,7 +251,8 @@ The virtual room settings will be passed into the `privileges` parameter, which 
 In the context of virtual rooms, the string *must* include a `role`, and either a `resourceId` or an `eventId`. 
 **If only EventId is set,** the resourceId will be retrieved automatically. 
 **If only resourceId is set**, the outcome will be determined by the settings in `userContextualRole`. If the user is a moderator, this will allow entry to the room to prepare materials and content. 
-For a regular attendee, entry will only be allowed if the moderator is already in the room. 
+For a regular attendee, entry will only be allowed if the moderator is already in the room.
+>Note: A user is able to join a Virtual Room directly by specifying the `resourceId` in the `privileges` parameter instead of `eventId`. Event creation is optional. 
 
 | Key  | Required  | Description |
 |---|---|---|
@@ -365,3 +365,122 @@ Assuming the Invite button is enabled, the invitation modal allows a password to
 4. Did you pass `role` in the KS privilege string? 
 
 If you're still experiencing trouble, email us at vpaas@kaltura.com. 
+
+## Session Analytics
+
+Acquiring session analytics takes several steps, as outlined below:
+
+### First, get the session that took place in the particular room / scheduleResource of interest
+
+| Action  | Method  | Description |
+|---|---|---|
+| /analytics/sessions  | GET  | Get a list of sessions that occurred in a room |
+
+**API Parameters**
+| Param Name  | type  | Is optional  | Description |
+|---|---|---|---|
+| third_party_room_id  | string  | optional  | Option to filter by third party room id (LTI Launch) - to get all room sessions.<br />**For rooms created using the Kaltura API (see here), use the resource id created using the scheduleResource service.** |
+| page  | integer  | optional  | The current requested record set page<br />Start from **0 to n**<br />Default is **0** |
+| from_date  | string  | optional  | Option to filter sessions that started from specific date time. <br />Date format: **Unix Timestamp** |
+| to_date  | string  | optional  | Option to filter sessions that started from specific date time. <br />Date format: **Unix Timestamp** |
+
+**API JSON Example:**
+```json
+{
+  "method": "GET",
+  "action": "analytics/sessions",
+  "params": {
+    "third_party_room_id": "1234567",
+    "from_date": "1522153700",
+    "to_date": "1522156000"
+  }
+}
+```
+
+**API URL-encoded JSON**
+```
+%7B%22method%22%3A%22GET%22%2C%22action%22%3A%22analytics%2Fsessions%22%2C%22params%22%3A%7B%22third_party_room_id%22%3A%221234567%22%2C%22from_date%22%3A%221522153700%22%2C%22to_date%22%3A%221522156000%22%7D%7D%0A
+```
+
+**Result:**
+```json
+{
+  "status": "success",
+  "data": { 
+     "sessions": [ { 
+        "id": "16772",
+        "room_id": "490",
+        "third_party_room_id": "93839",
+        "room_name": "Nir api test room",
+        "date_start": "1522153776", 
+        "date_end": "1522155274",
+        "duration": "24.9667",
+        "type": "room",
+        "instructors": "{\"203\":{\"role\":\"admin\",\"name\":\"Denis Sicun\"}}", 
+        "participants_count": "1", 
+      } ], 
+  "total_count": 1, 
+  "next_page": "" } 
+}
+```
+
+### Next, get the session attendee count of the session acquired in previous step. 
+For customers integrating analytics into their own dashboards, make sure to include include_third_party_data = 1 to have SSO user id and email returned with the analytics.
+
+| Action  | Method  | Description |
+|---|---|---|
+| /analytics/sessions-attendees  | GET  | Get all attendees in a specific session |
+
+**API Parameters**
+| Param Name  | type  | Is optional  | Description |
+|---|---|---|---|
+| session_id  | integer  | required  | Object id of the desired session |
+| page  | integer  | optional  | The current requested record set page<br />Start from **0 to n**<br />Default is **0** |
+| from_date  | string  | optional  | Option to filter attendees that started from specific date time. <br />Date format: **Unix Timestamp** |
+| to_date  | string  | optional  | Option to filter attendees that ended before specific date time. <br />Date format: **Unix Timestamp** |
+| include_third_party_data  | integer  | optional  | Set to 1 to have the user id and email passed through the integrating 3rd party’s SSO, returned as well (lti_* fields) |
+
+**API JSON Example:**
+```json
+{
+  "method": "GET",
+  "action": "analytics/session-attendees",
+  "params": {
+    "session_id" : "16772",
+    "include_third_party_data": 1
+  }
+}
+```
+
+**API URL-encoded JSON**
+```
+%7B%22method%22%3A%20%22GET%22%2C%22action%22%3A%20%22analytics%2Fsession-attendees%22%2C%22params%22%3A%7B%22session_id%22%3A%2216772%22%7D%7D%0A
+```
+
+**Result:**
+```json
+{
+  "status": "success",
+    "data": { 
+      "session_attendance": [
+      {
+        "session_id": "16772",
+        "user_id": "203",
+        "lti_user_id": "denis",
+        "user_type": "user",
+        "user_name": "Denis Sicun",
+        "user_email": "1610545059_c36129@lti-newrow.com",
+        "lti_user_email": "denis@newrow.com",
+        "time_joined": "1512657239", 
+        "time_left": "1512657271",
+        "duration": "0.5333",
+        "attention": "34%" 
+      },
+        ..
+        ..
+    ],
+    "total_count": 3,
+    "next_page": ""
+  } 
+}
+```
