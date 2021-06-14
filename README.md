@@ -66,6 +66,7 @@ Tags can also include the URL for a logo or optional parameters for initializing
 | custom_playlist_name  | string | Playlist Name to load. Used only if Playlist ID was not passed |
 | custom_reset_playlist_instance | boolean | **(default) 1:** creates a new playlist instance if the ID is already loaded in the room. **0:** does not reset playlist instance |
 | custom_company_logo | string | URL-encoded string of the logo URL |
+| custom_redirect_url | string | URL-encoded string of the URL to redirect to after the participant leaves the room |
 
 
 ### Example
