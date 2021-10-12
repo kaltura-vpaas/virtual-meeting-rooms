@@ -54,11 +54,11 @@ However, if you've lost track of it - no worries. You can see all of your schedu
 - **systemName**: (string) 
 - **description**: (string) 
 
-### Tags / Adding Playlists 
+### Tags
 
 Although the `tags` parameter is not *technically* required with this action, you must include tags of `vcprovider:newrow` in order to create a virtual meeting room and distinguish from other types of resources.
 
-Tags can also include the URL for a logo or optional parameters for initializing the virtual room with a predefined playlist. Note that the playlist feature is not enabled by default.
+Tags can also include the URL for a logo, optional parameters for initializing the virtual room with a predefined playlist, among other things. Note that the playlist feature is not enabled by default.
 
 | Key  | Type  | Value |
 |---|---|---|
@@ -68,6 +68,7 @@ Tags can also include the URL for a logo or optional parameters for initializing
 | custom_company_logo | string | URL-encoded string of the logo URL |
 | custom_redirect_url | string | URL-encoded string of the URL to redirect to after the participant leaves the room |
 | custom_rs_show_logo | boolean  | **1 (default):** show company logo in top toolbar. **0:** Hide company logo in top top toolbar |
+| custom_live_entry | string | live stream entry ID to be loaded into the Live Broadcast module, which allows for broadcasting contents of the room to an RTMP feed |
 
 
 ### Example
