@@ -334,7 +334,7 @@ You can navigate to this page directly, or you can embed it in your webpage usin
 <html>
 <body>
 
-  <iframe src="https://1234567.kaf.kaltura.com/virtualEvent/launch?ks=djJ8MjM2NTQ5MXxGbYGg6kZISSOJqeojxSl9-PRS78DLutFB3LZlbQef1n42zW5NHfkZKBmhHTTUe3aSf0eQg8FkA1SsKvsSz7evqm4VHzPP_Q0POLuKXKvuVDuSOjOeTBltskSaCRlclo1ZLHUXt4p1pMeQdo95jaY0ddYV1xJH7KMMCBNV-AMt2IqbwyWdTaeTlatZ0quTOACZ6uvzhq1v" wmode=transparent allow="microphone *; camera *; speakers *; usermedia *; autoplay *; fullscreen *;" width="1100px" height="700px"></iframe>
+  <iframe src="https://1234567.kaf.kaltura.com/virtualEvent/launch?ks=djJ8MjM2NTQ5MXxGbYGg6kZISSOJqeojxSl9-PRS78DLutFB3LZlbQef1n42zW5NHfkZKBmhHTTUe3aSf0eQg8FkA1SsKvsSz7evqm4VHzPP_Q0POLuKXKvuVDuSOjOeTBltskSaCRlclo1ZLHUXt4p1pMeQdo95jaY0ddYV1xJH7KMMCBNV-AMt2IqbwyWdTaeTlatZ0quTOACZ6uvzhq1v" wmode=transparent allow="microphone *; camera *; speakers *; usermedia *; autoplay *; fullscreen *; display-capture *;" width="1100px" height="700px"></iframe>
 
 </body>
 </html>
