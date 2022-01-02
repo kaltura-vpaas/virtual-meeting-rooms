@@ -62,13 +62,21 @@ Tags can also include the URL for a logo, optional parameters for initializing t
 
 | Key  | Type  | Value |
 |---|---|---|
+| custom_rs_room_cap | integer | limits room capacity for the coming session, additional participants will get a "room is full" notification and will not be allowed into the room | 
 | custom_playlist_id  | integer  | Playlist ID to load in this resource |
 | custom_playlist_name  | string | Playlist Name to load. Used only if Playlist ID was not passed |
 | custom_reset_playlist_instance | boolean | **1 (default):** creates a new playlist instance if the ID is already loaded in the room. **0:** does not reset playlist instance |
 | custom_company_logo | string | URL-encoded string of the logo URL |
 | custom_redirect_url | string | URL-encoded string of the URL to redirect to after the participant leaves the room |
 | custom_rs_show_logo | boolean  | **1 (default):** show company logo in top toolbar. **0:** Hide company logo in top top toolbar |
-| custom_live_entry | string | live stream entry ID to be loaded into the Live Broadcast module, which allows for broadcasting contents of the room to an RTMP feed |
+| custom_live_entry | string | kaltura live entry ID to be pre-loaded into the Live Broadcast module, which allows for broadcasting contents of the room to an RTMP feed |
+| custom_p_rtmp_url | string | Primary RTMP URL of the target broadcast service e.g. kaltura, facebook, youtube, etc. |
+| custom_s_rtmp_url | string | Secondary RTMP URL of the target broadcast service e.g. kaltura, facebook, youtube, etc. |
+| custom_rtmp_key | string | Unique broadcast key received from your broadcast service provider for the RTMP stream | 
+| custom_cat_id | string | comma separated list of kaltura category IDs to which room recordings of the session will be published automatically |
+| custom_xl_room_max | integer | number of participants expected in the XL room mode session (300 (min), 400, 500, 600, 700 (max)) |
+| custom_xl_room_pres | integer | number of presenters that will require being 'LIVE' concurrently, publishing their audio/video streams |
+| custom_xl_room_geo | string | choose a geo if all presenters are located in proximity of one of these geo locations or choose the global region if not. Enter us-east-1 (for USA), eu-central-1 (for Europe), ap-southeast-1 (for SE Asia ), ap-northeast-1 (for NE Asia), global |
 
 
 ### Example
