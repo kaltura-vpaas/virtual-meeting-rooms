@@ -369,11 +369,82 @@ Assuming the Invite button is enabled, the invitation modal allows a password to
 
 If you're still experiencing trouble, email us at vpaas@kaltura.com. 
 
-## Session Analytics
+## Room Analytics
+
+Acquiring room analytics takes several steps, as outlined below.
+
+### API Endpoint
+
+The URL structure for the analytics endpoint looks like this:
+
+```
+[KAF-ENDPOINT]/newrowkaf/index/api?ks=[KS]
+```
+where the KS is the Kaltura Session and your KAF endpoint is `[YOUR PARTNER ID].kaf.kaltura.com`.
+
+### Generating Kaltura Session
+
+Kaltura Session (KS) generation is discussed previously, however for the analytics APIs, the generation will be slighlty different, particularly the `privileges` parameter.
+
+We'll create the KS by using the [session.start](https://developer.kaltura.com/console/service/session/action/start) action. You'll need:
+- Your `PartnerID` from the [integration settings](https://kmc.kaltura.com/index.php/kmcng/settings/integrationSettings) in your KMC
+- The **ADMIN** `Secret` from the [integration settings](https://kmc.kaltura.com/index.php/kmcng/settings/integrationSettings) in your KMC
+- `userId`, which can be any identifying string
+- `privileges` string, described below
+
+#### The Privileges String
+
+The details of the analytics API call will be passed into the `privileges` parameter.
+
+In the context of the analytics API, the string *must* include a `role`, an `api`, and either a `resourceId` or an `eventId`.
+
+| Key  | Required  | Description |
+|---|---|---|
+| eventId  | yes, if `resourceId` not set  | ID of the event to get the data about |
+| resourceId  | yes, if `eventId` not set | ID of the resource to get the data about. Do not populate both resourceId and eventId. |
+| role | yes | set to `viewerRole` |
+
+| api | yes | defines the API action to be executed. The value of this parameter is a URL encoded JSON string. |
+
+
+
+##### Privileges Example
+**JSON Object**
+```json
+{
+  "method": "GET",
+  "action": "analytics/sessions",
+  "params": {
+    "from_date": "1522153700",
+    "to_date": "1522156000"
+  }
+}
+```
+
+**JSON String**
+```json
+{ "method": "GET", "action": "analytics/sessions",  "params": { "from_date":"1522153700", "to_date": "1522156000" } }
+```
+**URL encoded**
+```
+%7B%20%22method%22%3A%20%22GET%22%2C%20%22action%22%3A%20%22analytics%2Fsessions%22%2C%20%20%22params%22%3A%20%7B%20%22from_date%22%3A%221522153700%22%2C%20%22to_date%22%3A%20%221522156000%22%20%7D%20%7D
+```
+**The API privilege attribute is**
+```
+api:%7B%20%22method%22%3A%20%22GET%22%2C%20%22action%22%3A%20%22analytics%2Fsessions%22%2C%20%20%22params%22%3A%20%7B%20%22from_date%22%3A%221522153700%22%2C%20%22to_date%22%3A%20%221522156000%22%20%7D%20%7D
+```
+**The full privilege string**
+```
+resourceId:YOUR_RESOURCE_ID,role:viewerRole,api:%7B%20%22method%22%3A%20%22GET%22%2C%20%22action%22%3A%20%22analytics%2Fsessions%22%2C%20%20%22params%22%3A%20%7B%20%22from_date%22%3A%221522153700%22%2C%20%22to_date%22%3A%20%221522156000%22%20%7D%20%7D
+```
+> Each API request has pagination, each page gets 30 records max. The API return total_count of records and next_page. Empty next_page means that this is the last page.
+
+### Acquiring Session Analytics
 
 Acquiring session analytics takes several steps, as outlined below:
 
 ### First, get the session that took place in the particular room / scheduleResource of interest
+> NOTE: the data will be acquired for the resourceId (room) specified in the KS privilege field.
 
 | Action  | Method  | Description |
 |---|---|---|
