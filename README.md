@@ -442,7 +442,7 @@ resourceId:YOUR_RESOURCE_ID,role:viewerRole,api:%7B%20%22method%22%3A%20%22GET%2
 
 Acquiring session analytics takes several steps, as outlined below:
 
-### First, get the session that took place in the particular room / scheduleResource of interest
+#### First, get the session that took place in the particular room / scheduleResource of interest
 > NOTE: the data will be acquired for the resourceId (room) specified in the KS privilege field.
 
 | Action  | Method  | Description |
@@ -497,7 +497,7 @@ Acquiring session analytics takes several steps, as outlined below:
 }
 ```
 
-### Next, get the session attendee count of the session acquired in previous step. 
+#### Next, get the session attendee count of the session acquired in previous step. 
 For customers integrating analytics into their own dashboards, make sure to include include_third_party_data = 1 to have SSO user id and email returned with the analytics.
 
 | Action  | Method  | Description |
