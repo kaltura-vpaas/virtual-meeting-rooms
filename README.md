@@ -403,7 +403,6 @@ In the context of the analytics API, the string *must* include a `role`, an `api
 | eventId  | yes, if `resourceId` not set  | ID of the event to get the data about |
 | resourceId  | yes, if `eventId` not set | ID of the resource to get the data about. Do not populate both resourceId and eventId. |
 | role | yes | set to `viewerRole` |
-
 | api | yes | defines the API action to be executed. The value of this parameter is a URL encoded JSON string. |
 
 
