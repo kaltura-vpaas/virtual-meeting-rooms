@@ -62,18 +62,18 @@ Tags can also include the URL for a logo, optional parameters for initializing t
 
 | Key  | Type  | Value |
 |---|---|---|
-| custom_rs_room_cap | integer | limits room capacity for the coming session, additional participants will get a "room is full" notification and will not be allowed into the room | 
-| custom_playlist_id  | integer  | Playlist ID to load in this resource |
-| custom_playlist_name  | string | Playlist Name to load. Used only if Playlist ID was not passed |
-| custom_reset_playlist_instance | boolean | **1 (default):** creates a new playlist instance if the ID is already loaded in the room. **0:** does not reset playlist instance |
+| custom_cat_id | string | comma separated list of kaltura category IDs to which room recordings of the session will be published automatically |
 | custom_company_logo | string | URL-encoded string of the logo URL |
-| custom_redirect_url | string | URL-encoded string of the URL to redirect to after the participant leaves the room |
-| custom_rs_show_logo | boolean  | **1 (default):** show company logo in top toolbar. **0:** Hide company logo in top top toolbar |
 | custom_live_entry | string | kaltura live entry ID to be pre-loaded into the Live Broadcast module, which allows for broadcasting contents of the room to an RTMP feed |
+| custom_playlist_id  | integer  | Playlist ID to load in this resource |
+| custom_reset_playlist_instance | boolean | **on (default):** creates a new playlist instance if the ID is already loaded in the room. **off:** does not reset playlist instance |
+| custom_redirect_url | string | URL-encoded string of the URL to redirect to after the participant leaves the room |
+| custom_rs_room_cap | integer | limits room capacity for the coming session, additional participants will get a "room is full" notification and will not be allowed into the room |
+| custom_rs_show_logo | boolean  | **on (default):** show company logo in top toolbar. **off:** Hide company logo in top top toolbar |
 | custom_p_rtmp_url | string | Primary RTMP URL of the target broadcast service e.g. kaltura, facebook, youtube, etc. |
 | custom_s_rtmp_url | string | Secondary RTMP URL of the target broadcast service e.g. kaltura, facebook, youtube, etc. |
 | custom_rtmp_key | string | Unique broadcast key received from your broadcast service provider for the RTMP stream | 
-| custom_cat_id | string | comma separated list of kaltura category IDs to which room recordings of the session will be published automatically |
+| custom_tp_playlist_id  | integer  | Third Party Playlist ID to load in this resource |
 | custom_xl_room_max | integer | number of participants expected in the XL room mode session (300 (min), 400, 500, 600, 700 (max)) |
 | custom_xl_room_pres | integer | number of presenters that will require being 'LIVE' concurrently, publishing their audio/video streams |
 | custom_xl_room_geo | string | choose a geo if all presenters are located in proximity of one of these geo locations or choose the global region if not. Enter us-east-1 (for USA), eu-central-1 (for Europe), ap-southeast-1 (for SE Asia ), ap-northeast-1 (for NE Asia), global |
@@ -131,23 +131,25 @@ The creation of the event will return an `id`. Hold on to that as well. And once
 ### Tags / Event Settings  
 
 An event can also include room settings, such as auto-recording, by passing  **tags** as comma-separated key-value-pairs. Tags are optional, and can also be set on the resource.
-**Note that any settings on the event will override those of the resource.**
+**Note that any settings on the event will override those of the resource when using the event ID to join the room.**
 
 | Key  | Type  | Default  | Other |
 |---|---|---|---|
-| custom_rec_auto_start  | boolean  | **0:** Auto-start recording is disabled | **1:** Start recording automatically when instructor joins.  **Note that session recordings will be as long as the event duration.** |
-| custom_rec_set_reminder  | boolean | **0:** Recording reminder is disabled | **1:** Enable recording reminder prompt once instructor has been in the room for two minutes |  
-| custom_rs_show_participant  | boolean  | **1:** Show participant list for students and guests | **0:** Hide participant list for students and guests  |
-| custom_rs_show_invite  | boolean  | **1:** Show invite option for moderators and instructors  | **0:** Hide invite option for moderators and instructors |
-| custom_rs_show_chat  | boolean  | **1:** Enable chat for students and guests  | **0:** Disable chat for students and guests  |
-| custom_rs_enable_guests_to_join  | boolean  | **1:** Enable guests to join with invite link  | **0:** Block guests from joining by invite link  |
+| custom_rec_auto_start  | boolean  | **off:** Auto-start recording is disabled | **on:** Start recording automatically when instructor joins.  **Note that session recordings will be as long as the event duration.** |
+| custom_rec_set_reminder  | boolean | **off:** Recording reminder is disabled | **on:** Enable recording reminder prompt once instructor has been in the room for two minutes |
+| custom_rs_auto_clear_chat_end_of_session  | boolean  | **off:** Do not clear the room chat at the end of the session | **on:** Clear the room chat at the end of the session |
 | custom_rs_class_mode  | string  | **virtual_classroom:** Set room to be in virtual meeting room mode, where users are automatically set to Live and prompted to activate webcams | **webinar:** Set room to webinar mode, where users are not live |
-| custom_rs_show_chat_moderators  | boolean  | **1:** Enable moderator chat | **0:** Disable moderator chat |
-| custom_rs_show_chat_questions  | boolean  | **1:** Enable Q&A for students and guests | **0:** Disable Q&A for students and guests |
-| custom_rs_show_language_selection  | boolean  | **1:** Show "Select Language" in options menu | **0:** Hide "Select Language" in options menu |
-| custom_rs_enable_media_library  | boolean  | **1:** Show "Video Library" in tools | **0:** Hide "Video Library" in tools |
-| custom_rs_hide_end_session  | boolean  | **0:** Show "End Session" button, which ends the session for all participants | **1:** Hide "End Session" button |
-| custom_rs_hide_leave_session  | boolean  | **0:** Show "Leave Session" button, which ends the session for the user | **1:** Hide "Leave Session" button |
+| custom_rs_enable_guests_to_join  | boolean  | **on:** Enable guests to join with invite link  | **off:** Block guests from joining by invite link  |
+| custom_rs_enable_media_library  | boolean  | **on:** Show "Video Library" in tools | **off:** Hide "Video Library" in tools |
+| custom_rs_hide_end_session  | boolean  | **off:** Show "End Session" button, which ends the session for all participants | **on:** Hide "End Session" button |
+| custom_rs_hide_leave_session  | boolean  | **off:** Show "Leave Session" button, which ends the session for the user | **on:** Hide "Leave Session" button |
+| custom_rs_show_chat  | boolean  | **on:** Enable chat for students and guests  | **off:** Disable chat for students and guests  |
+| custom_rs_show_chat_moderators  | boolean  | **on:** Enable moderator chat | **off:** Disable moderator chat |
+| custom_rs_show_chat_questions  | boolean  | **on:** Enable Q&A for students and guests | **off:** Disable Q&A for students and guests |
+| custom_rs_show_invite  | boolean  | **on:** Show invite option for moderators and instructors  | **off:** Hide invite option for moderators and instructors |
+| custom_rs_show_language_selection  | boolean  | **on:** Show "Select Language" in options menu | **off:** Hide "Select Language" in options menu |
+| custom_rs_show_ondemand_page_link  | boolean  | **off:** Hide "On Demand Course" in options menu | **on:** Show "On Demand Course" in options menu |
+| custom_rs_show_participant  | boolean  | **on:** Show participant list for students and guests | **off:** Hide participant list for students and guests  |
 
 #### Language Settings 
 
